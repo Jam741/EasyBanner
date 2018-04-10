@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rv_bannerContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false">
+
+    <com.jam.utils.easybanner.view.BannerViewPager
+        android:id="@+id/vp_banner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true">
+
+
+        <LinearLayout
+            android:id="@+id/ll_indicatorContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:visibility="gone"></LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_indicatorNum"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/banner_indicator_textbg_black"
+            android:gravity="center"
+            android:text="1/1"
+            android:textColor="#FFFFFF"
+            android:visibility="gone" />
+
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_defaultImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/no_banner"
+        android:visibility="gone" />
+
+</RelativeLayout>

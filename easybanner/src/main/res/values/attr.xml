@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="EasyBanner">
+        <attr name="delayTime" format="integer" />
+        <attr name="scrollTime" format="integer" />
+        <attr name="autoScroll" format="boolean" />
+        <attr name="indicatorDrawableSelected" format="reference" />
+        <attr name="indicatorDrawableNormal" format="reference" />
+        <attr name="indicatorWidth" format="dimension" />
+        <attr name="indicatorHeight" format="dimension" />
+        <attr name="indicatorMargin" format="dimension"/>
+        <attr name="defaultBackground" format="reference"/>
+    </declare-styleable>
+</resources>
