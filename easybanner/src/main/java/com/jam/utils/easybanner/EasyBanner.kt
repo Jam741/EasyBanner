@@ -15,7 +15,6 @@ import android.widget.TextView
 import com.jam.utils.easybanner.listener.OnEasyBannerListener
 import com.jam.utils.easybanner.loader.DisplayViewLoaderInterface
 import com.jam.utils.easybanner.view.BannerViewPager
-import com.squareup.picasso.Picasso
 
 /**
  * Created by hejiaming on 2018/4/8.
@@ -116,12 +115,12 @@ class EasyBanner @JvmOverloads constructor(context: Context, attrs: AttributeSet
         object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
                 outerOnPageChangeListener?.onPageScrollStateChanged(state)
-                when (state) {
+                when (state) { //模拟无线滚动
                     0 -> {//No operation
-                        if (currentItem == 0){
-                            vp_banner.setCurrentItem(imageUrls.size,false)
-                        }else if (currentItem == imageUrls.size +1){
-                            vp_banner.setCurrentItem(1,false)
+                        if (currentItem == 0) {
+                            vp_banner.setCurrentItem(imageUrls.size, false)
+                        } else if (currentItem == imageUrls.size + 1) {
+                            vp_banner.setCurrentItem(1, false)
                         }
                     }
                     1 -> {//start Sliding
@@ -129,7 +128,8 @@ class EasyBanner @JvmOverloads constructor(context: Context, attrs: AttributeSet
                             vp_banner.setCurrentItem(1, false)
                         } else if (currentItem == 0) {
                             vp_banner.setCurrentItem(imageUrls.size, false)
-                        }                    }
+                        }
+                    }
                     2 -> {//end Sliding
 
                     }
@@ -164,7 +164,7 @@ class EasyBanner @JvmOverloads constructor(context: Context, attrs: AttributeSet
     /**
      * 容器布局
      */
-    private val containerView by lazy { LayoutInflater.from(context).inflate(R.layout.easybanner_layout, null) }
+    private lateinit var containerView: View
 
     private val vp_banner by lazy { containerView.findViewById<BannerViewPager>(R.id.vp_banner) }
 
@@ -199,14 +199,12 @@ class EasyBanner @JvmOverloads constructor(context: Context, attrs: AttributeSet
             typeArray.recycle()
         }
 
-
-
         initView()
     }
 
 
-    fun initView() {
-        addView(containerView)
+    private fun initView() {
+        containerView = LayoutInflater.from(context).inflate(R.layout.easybanner_layout, this, true)
         views.clear()
         iv_defaultImage.setImageResource(defaultBackgroundRes)
         initViewPagerScroll()
@@ -395,6 +393,7 @@ class EasyBanner @JvmOverloads constructor(context: Context, attrs: AttributeSet
                     else -> imageUrls[i - 1]
                 }
                 views.add(displayView)
+                displayView.scaleType = ScaleType.CENTER_CROP
                 displayViewLoader?.display(context, url, displayView)
                 Log.d(TAG, "displayView is ImageView")
             }
