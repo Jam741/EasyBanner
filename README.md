@@ -27,6 +27,6 @@ How to
 ```
 	dependencies {
 	        ...
-	        compile 'com.github.Jam741:EasyBanner:v1.0.3'
+	        compile 'com.github.Jam741:EasyBanner:v1.0.4'
 	}
 ```

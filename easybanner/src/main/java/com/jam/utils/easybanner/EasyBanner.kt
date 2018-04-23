@@ -208,7 +208,7 @@ class EasyBanner @JvmOverloads constructor(context: Context, attrs: AttributeSet
             indicatorMargin = typeArray.getDimensionPixelOffset(R.styleable.EasyBanner_indicatorMargin, EasyBannerConfig.INDICATOR_MARGIN_SIZE)
 
             indicatorDrawableSelected = typeArray.getResourceId(R.styleable.EasyBanner_indicatorDrawableSelected, R.drawable.banner_indicator_selected_gray)
-            indicatorDrawableNormal = typeArray.getResourceId(R.styleable.EasyBanner_indicatorDrawableSelected, R.drawable.banner_indicator_normal_white)
+            indicatorDrawableNormal = typeArray.getResourceId(R.styleable.EasyBanner_indicatorDrawableNormal, R.drawable.banner_indicator_normal_white)
 
             delayTime = typeArray.getInt(R.styleable.EasyBanner_delayTime, delayTime)
 
