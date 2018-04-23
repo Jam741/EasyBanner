@@ -26,6 +26,7 @@ How to
 ## Step 2. Add the dependency
 ```
 	dependencies {
+	        ...
 	        compile 'com.github.Jam741:EasyBanner:v1.0.3'
 	}
 ```
