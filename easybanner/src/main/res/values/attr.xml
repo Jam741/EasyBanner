@@ -9,6 +9,7 @@
         <attr name="indicatorDrawableNormal" format="reference" />
         <attr name="indicatorWidth" format="dimension" />
         <attr name="indicatorHeight" format="dimension" />
+        <attr name="indicatorSpace" format="dimension"/>
         <attr name="indicatorMargin" format="dimension"/>
         <attr name="defaultBackground" format="reference"/>
     </declare-styleable>

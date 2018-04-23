@@ -3,6 +3,7 @@ package com.jam.utils.easybannerdemo
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
+import com.jam.utils.easybanner.EasyBannerConfig
 import com.jam.utils.easybanner.listener.OnEasyBannerListener
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         easy_banner
                 .setData(urls as ArrayList<Any>)
                 .isAutoPlay(true)
+                .setIndicatorStyle(EasyBannerConfig.CIRCLE_INDICATOR)
                 .setDisplayLoader(GlideImageLoader())
                 .setOnEasyBannerListener(object : OnEasyBannerListener {
                     override fun onBannerClick(position: Int) {

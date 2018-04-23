@@ -9,15 +9,14 @@
     tools:context="com.jam.utils.easybannerdemo.MainActivity">
 
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/banner"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"></android.support.v4.view.ViewPager>
-
     <com.jam.utils.easybanner.EasyBanner
         android:id="@+id/easy_banner"
         android:layout_width="match_parent"
-        android:layout_height="180dp"></com.jam.utils.easybanner.EasyBanner>
+        app:indicatorSpace="5dp"
+        app:indicatorHeight="20dp"
+        app:indicatorWidth="20dp"
+        android:layout_height="match_parent"
+        app:indicatorMargin="50dp"></com.jam.utils.easybanner.EasyBanner>
 
 
 </LinearLayout>

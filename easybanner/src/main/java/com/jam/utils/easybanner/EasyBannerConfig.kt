@@ -25,7 +25,8 @@ object EasyBannerConfig {
     /**
      * banner
      */
-    val PADDING_SIZE = 5
+    val INDICATOR_SPACE_SIZE = 5
+    val INDICATOR_MARGIN_SIZE = 8
     val TIME = 2000
     val DURATION = 800
     val IS_AUTO_PLAY = true

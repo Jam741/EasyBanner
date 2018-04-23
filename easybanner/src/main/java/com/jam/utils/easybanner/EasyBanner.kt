@@ -4,17 +4,16 @@ import android.content.Context
 import android.support.v4.view.ViewPager
 import android.util.AttributeSet
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.widget.FrameLayout
-import android.widget.ImageView
+import android.widget.*
 import android.widget.ImageView.ScaleType
-import android.widget.LinearLayout
-import android.widget.TextView
 import com.jam.utils.easybanner.listener.OnEasyBannerListener
 import com.jam.utils.easybanner.loader.DisplayViewLoaderInterface
 import com.jam.utils.easybanner.view.BannerViewPager
+import java.util.*
 
 /**
  * Created by hejiaming on 2018/4/8.
@@ -59,12 +58,17 @@ class EasyBanner @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
     private val displayMetrics by lazy { context.resources.displayMetrics }
 
+    private var lastPosition = 1
 
     private var indicatorWidth: Int = 0
 
     private var indicatorHeight: Int = 0
 
-    private var indicatorMargin: Int = 0
+    private var indicatorSpace: Int = 0
+
+    private var indicatorMargin: Int = 8
+
+    private val defaultIndicatorMargin: Int = 8
 
     private var indicatorDrawableSelected = -1
 
@@ -141,9 +145,26 @@ class EasyBanner @JvmOverloads constructor(context: Context, attrs: AttributeSet
             }
 
             override fun onPageSelected(position: Int) {
-                Log.d(TAG, "position:" + position)
+                Log.d(TAG, "RealPosition:" + toRealPosition(position))
                 currentItem = position
                 outerOnPageChangeListener?.onPageSelected(toRealPosition(position))
+
+
+                if (indicatorStyle == EasyBannerConfig.CIRCLE_INDICATOR) {
+                    indicatorImageViews[(lastPosition - 1 + imageUrls.size) % imageUrls.size].setImageResource(indicatorDrawableNormal)
+                    indicatorImageViews[(position - 1 + imageUrls.size) % imageUrls.size].setImageResource(indicatorDrawableSelected)
+                    lastPosition = position
+                }
+
+                var positionNum = position
+
+                if (positionNum == 0) positionNum = imageUrls.size
+                if (positionNum > imageUrls.size) positionNum = 1
+                when (indicatorStyle) {
+                    EasyBannerConfig.CIRCLE_INDICATOR -> {
+                    }
+                    EasyBannerConfig.NUM_INDICATOR -> tv_indicatorNum.text = positionNum.toString() + "/" + imageUrls.size
+                }
             }
         }
     }
@@ -183,7 +204,8 @@ class EasyBanner @JvmOverloads constructor(context: Context, attrs: AttributeSet
             val typeArray = context.obtainStyledAttributes(attrs, R.styleable.EasyBanner)
             indicatorWidth = typeArray.getDimensionPixelOffset(R.styleable.EasyBanner_indicatorWidth, indicatorSize)
             indicatorHeight = typeArray.getDimensionPixelOffset(R.styleable.EasyBanner_indicatorHeight, indicatorSize)
-            indicatorMargin = typeArray.getDimensionPixelOffset(R.styleable.EasyBanner_indicatorMargin, EasyBannerConfig.PADDING_SIZE)
+            indicatorSpace = typeArray.getDimensionPixelOffset(R.styleable.EasyBanner_indicatorSpace, EasyBannerConfig.INDICATOR_SPACE_SIZE)
+            indicatorMargin = typeArray.getDimensionPixelOffset(R.styleable.EasyBanner_indicatorMargin, EasyBannerConfig.INDICATOR_MARGIN_SIZE)
 
             indicatorDrawableSelected = typeArray.getResourceId(R.styleable.EasyBanner_indicatorDrawableSelected, R.drawable.banner_indicator_selected_gray)
             indicatorDrawableNormal = typeArray.getResourceId(R.styleable.EasyBanner_indicatorDrawableSelected, R.drawable.banner_indicator_normal_white)
@@ -244,13 +266,18 @@ class EasyBanner @JvmOverloads constructor(context: Context, attrs: AttributeSet
         return this
     }
 
-//    fun setIndicatorGravity(type: Int) {
-//        when (type) {
-//            EasyBannerConfig.LEFT -> {
-//                indicatorGravity = Gravity.LEFT | Gravity.CENTER_VERTICAL
-//            }
-//        }
-//    }
+    fun setIndicatorGravity(type: Int) {
+        var gravity: Int = Gravity.CENTER
+        when (type) {
+            EasyBannerConfig.LEFT -> gravity = Gravity.LEFT
+
+            EasyBannerConfig.RIGHT -> gravity = Gravity.RIGHT
+
+            EasyBannerConfig.CENTER -> gravity = Gravity.CENTER
+        }
+
+        ll_indicatorContainer.gravity = gravity
+    }
 
     fun setAnimation(transformer: ViewPager.PageTransformer): EasyBanner {
         setPageTransformer(true, transformer)
@@ -297,8 +324,9 @@ class EasyBanner @JvmOverloads constructor(context: Context, attrs: AttributeSet
     }
 
     fun start(): EasyBanner {
-//        setIndicatorsStyle()
-//        loadingIndicator()
+        setIndicatorsStyle()
+        setIndicatorGravity(indicatorGravity)
+        loadingIndicator()
         loadingDisplayViews()
 
 
@@ -322,12 +350,20 @@ class EasyBanner @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
     private fun loadingIndicator() {
         if (indicatorStyle == EasyBannerConfig.CIRCLE_INDICATOR) {
+            Log.d(TAG, "indicatorWidth:" + indicatorWidth)
+
+            ll_indicatorContainer.layoutParams = (ll_indicatorContainer.layoutParams as RelativeLayout.LayoutParams).apply {
+                leftMargin = indicatorMargin - (indicatorSpace / 2)
+                rightMargin = indicatorMargin - (indicatorSpace / 2)
+                topMargin = indicatorMargin
+                bottomMargin = indicatorMargin
+            }
             indicatorImageViews.clear()
             ll_indicatorContainer.removeAllViews()
             for (i in imageUrls.indices) {
                 val params = LinearLayout.LayoutParams(indicatorWidth, indicatorHeight).apply {
-                    leftMargin = indicatorMargin
-                    rightMargin = indicatorMargin
+                    leftMargin = indicatorSpace / 2
+                    rightMargin = indicatorSpace / 2
                 }
                 val imageView = ImageView(context).apply {
                     scaleType = ScaleType.CENTER_CROP
